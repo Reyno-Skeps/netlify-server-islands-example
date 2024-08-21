@@ -1,0 +1,36 @@
+---
+import Fallback from '../components/Fallback.astro';
+import Panel from '../components/Panel.astro';
+import Quote from '../components/Quote.astro';
+import Layout from '../layouts/Layout.astro';
+
+const pages = [
+  {
+    slug: undefined,
+    title: 'Home',
+  },
+  {
+    slug: 'about',
+    title: 'About',
+  },
+  {
+    slug: 'contact',
+    title: 'Contact',
+  }
+];
+
+const { slug } = Astro.params;
+const page = pages.find((page) => page.slug === slug);
+if (!page) return Astro.redirect("/404");
+const { title } = page;
+---
+
+<Layout title="Astro Server Islands">
+	<section>
+		<h1>Astro Server Islands ({ title })</h1>
+		<Quote server:defer>
+			<Fallback slot="fallback"/>
+		</Quote>
+		<Panel/>
+	</section>
+</Layout>
